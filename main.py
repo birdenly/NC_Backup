@@ -8,14 +8,14 @@ from utils import *
 
 def menuLoop():
     
-    sizeMain = convert_size(get_size(dictPaths["ncPath"][0]))
-    sizeEnv = convert_size(get_size(dictPaths["ncEnvPath"][0]))
+    sizeMain = convert_size(getSize(dictPaths["ncPath"][0]))
+    sizeEnv = convert_size(getSize(dictPaths["ncEnvPath"][0]))
     
     print("\n")
     print("###############################")
     print("Choose one of the options below:")
-    print(f"1 - Backup Nucleus main folder [{dictPaths["ncPath"][0]}] (Size: {convert_size(get_size(dictPaths["ncPath"][0]))})") if sizeMain != "0B" else print("1 - Backup Nucleus main folder [Not found]")
-    print(f"2 - Backup Nucleus environment folder [{dictPaths["ncEnvPath"][0]}] (Size: {convert_size(get_size(dictPaths["ncEnvPath"][0]))})") if sizeEnv != "0B" else print("2 - Backup Nucleus environment folder [Not found]")
+    print(f"1 - Backup Nucleus main folder [{dictPaths["ncPath"][0]}] (Size: {sizeMain})") if sizeMain != "0B" else print("1 - Backup Nucleus main folder [Not found]")
+    print(f"2 - Backup Nucleus environment folder [{dictPaths["ncEnvPath"][0]}] (Size: {sizeEnv})") if sizeEnv != "0B" else print("2 - Backup Nucleus environment folder [Not found]")
     print("3 - Exit")
     option = input("Enter your choice: ")
     
@@ -41,7 +41,9 @@ if __name__ == "__main__":
     try:
         currentUser = os.path.expanduser('~')
         print("=========== Nucleus Backup ===========")
-        print("Please select your Nucleus Coop installation folder on the windowed that openned.")
+        print("This tool will help you backup most of your Nucleus Coop save data.\nBut this WONT BACKUP saves for handlers that save in the main game save path(ex: Elden ring, Dark Souls, recent unity game and many others).\nYou will have to backup those manually wherever theythat game saves at.")
+        print("\n") 
+        print("Please select your Nucleus Coop installation folder on the windowed that opened.")
         tkinter.Tk().withdraw()
         while True:
             ncPath = filedialog.askdirectory(title="Select your Nucleus Coop installation path", mustexist=True)
