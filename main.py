@@ -1,7 +1,7 @@
-import math
 import os
 import time
-import zipfile
+import tkinter
+from tkinter import filedialog
 
 from utils import *
 
@@ -11,9 +11,8 @@ def menuLoop():
     sizeMain = convert_size(get_size(dictPaths["ncPath"][0]))
     sizeEnv = convert_size(get_size(dictPaths["ncEnvPath"][0]))
     
-    print("\n" * 2)
-    print("=========== Nucleus Backup ===========")
-    
+    print("\n")
+    print("###############################")
     print("Choose one of the options below:")
     print(f"1 - Backup Nucleus main folder [{dictPaths["ncPath"][0]}] (Size: {convert_size(get_size(dictPaths["ncPath"][0]))})") if sizeMain != "0B" else print("1 - Backup Nucleus main folder [Not found]")
     print(f"2 - Backup Nucleus environment folder [{dictPaths["ncEnvPath"][0]}] (Size: {convert_size(get_size(dictPaths["ncEnvPath"][0]))})") if sizeEnv != "0B" else print("2 - Backup Nucleus environment folder [Not found]")
@@ -21,7 +20,7 @@ def menuLoop():
     option = input("Enter your choice: ")
     
     print("###############################")
-    print("\n"*3)
+    print("\n")
     
     if option == '1' and dictPaths["ncPath"][1]:
         ncMainBackup(dictPaths["ncPath"][0])
@@ -42,8 +41,10 @@ if __name__ == "__main__":
     try:
         currentUser = os.path.expanduser('~')
         print("\n")
-        print("#####" * 5)
-        ncPath = input("Enter your Nucleus Coop installation path: ")
+        print("=========== Nucleus Backup ===========")
+        print("Please select your Nucleus Coop installation folder on the windowed that openned.")
+        tkinter.Tk().withdraw()
+        ncPath = filedialog.askdirectory(title="Select your Nucleus Coop installation path")
 
         
         dictPaths = { # bools to check if path exists
