@@ -5,15 +5,14 @@ A simple backup tool for Nucleus Co-op.
 - Backs up the needed files from the Nucleus main folder.
 - Backs up the whole Nucleus environment folder (%userprofile%/NucleusCoop).
 
-## How to use
+## Warning ⚠️
+- This will not back up handlers that save in the main game save path (e.g., Elden Ring, Dark Souls, some recent Unity games). Back those up manually.
+
+## How to use 
 1. Download the .zip from [release](https://github.com/birdenly/NC_Backup/releases/tag/release)
 2. Unzip it anywhere and run the NC Backup Tool.exe
 3. Follow the instructions in the console.
 4. When needed unpack the backup_env.zip into your %userprofile% folder and backup_main.zip into your new Nucleus Co-op folder.
-
-## Notes
-- This will not back up handlers that save in the main game save path (e.g., Elden Ring, Dark Souls, some recent Unity games). Back those up manually.
-
 
 ## For the handlers:
 - After unpacking the backup_main.zip into your new Nucleus folder
