@@ -40,11 +40,14 @@ def menuLoop():
 if __name__ == "__main__":        
     try:
         currentUser = os.path.expanduser('~')
-        print("\n")
         print("=========== Nucleus Backup ===========")
         print("Please select your Nucleus Coop installation folder on the windowed that openned.")
         tkinter.Tk().withdraw()
-        ncPath = filedialog.askdirectory(title="Select your Nucleus Coop installation path")
+        while True:
+            ncPath = filedialog.askdirectory(title="Select your Nucleus Coop installation path", mustexist=True)
+            if ncPath and os.path.exists(os.path.join(ncPath, "nucleuscoop.exe")):
+                break
+            print("This is not a valid Nucleus Coop installation folder! try again.")
 
         
         dictPaths = { # bools to check if path exists
