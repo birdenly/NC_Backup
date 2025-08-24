@@ -41,7 +41,9 @@ if __name__ == "__main__":
     try:
         currentUser = os.path.expanduser('~')
         print("=========== Nucleus Backup ===========")
-        print("This tool will help you backup most of your Nucleus Coop save data.\nBut this WONT BACKUP saves for handlers that save in the main game save path(ex: Elden ring, Dark Souls, recent unity game and many others).\nYou will have to backup those manually wherever theythat game saves at.")
+        print("This tool will help you backup most of your Nucleus Coop save data.\nBut this WONT BACKUP saves for games that save in the main game save path (ex: Elden ring, Dark Souls, recent unity game and many others) or in other users.\nYou will have to backup those manually wherever that game saves at.")
+        print("=======================================")
+        print("This tool will backup your saves into zip files in the same folder as this. To get your saves back, use the instructions on the github page:\nhttps://github.com/birdenly/NC_Backup")
         print("\n") 
         print("Please select your Nucleus Coop installation folder on the windowed that opened.")
         tkinter.Tk().withdraw()
