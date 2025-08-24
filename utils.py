@@ -62,6 +62,17 @@ def getSize(path):
                     if extension in [".exe", ".log"]:
                         continue
                     total_size += os.path.getsize(filePath)
+                    
+                sub = os.path.join(dirpath, file)
+                contentFolder = os.path.join(path, "handlers")
+                if sub.startswith(contentFolder):
+                    root, extension = os.path.splitext(os.path.join(dirpath, file))
+                    if os.path.islink(os.path.join(dirpath, file)):
+                        continue
+                    if extension in [".log"]:
+                        continue
+                    total_size += os.path.getsize(filePath)
+                    
             except OSError:
                 pass
     return total_size
@@ -122,14 +133,26 @@ def ncMainBackup(path):
                     zf.write(final, os.path.relpath(final, path))
                     print("File done: " + final)           
                          
-                #logic to get the content folder and the subdirs
+                #logic to get the folder and the subdirs
                 sub = os.path.join(dirpath, file)
-                parent = os.path.join(path, "content")
-                if sub.startswith(parent):
+                contentFolder = os.path.join(path, "content")
+                if sub.startswith(contentFolder):
                     root, extension = os.path.splitext(os.path.join(dirpath, file))
                     if os.path.islink(os.path.join(dirpath, file)):
                         continue
                     if extension in [".exe", ".log"]:
+                        continue
+                    final = os.path.join(dirpath, file)
+                    zf.write(final, os.path.relpath(final, path))
+                    print("File done: " + final)
+
+                sub = os.path.join(dirpath, file)
+                contentFolder = os.path.join(path, "handlers")
+                if sub.startswith(contentFolder):
+                    root, extension = os.path.splitext(os.path.join(dirpath, file))
+                    if os.path.islink(os.path.join(dirpath, file)):
+                        continue
+                    if extension in [".log"]:
                         continue
                     final = os.path.join(dirpath, file)
                     zf.write(final, os.path.relpath(final, path))
