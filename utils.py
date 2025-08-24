@@ -15,12 +15,55 @@ def convert_size(size_bytes):
     s = round(size_bytes / p, 2)
     return "%s %s" % (s, size_name[i])
 
-def get_size(path):
+def getSize(path):
+    # Return total size of files to be backed up.
+    try:
+        entries = os.listdir(path)
+    except OSError:
+        return 0
+
+    has_nc_exe = any(name.lower() == "nucleuscoop.exe" for name in entries)
+
     total_size = 0
+    if not has_nc_exe:
+        for dirpath, dirnames, filenames in os.walk(path):
+            for f in filenames:
+                filePath = os.path.join(dirpath, f)
+                try:
+                    total_size += os.path.getsize(filePath)
+                except OSError:
+                    pass
+        return total_size
+    
     for dirpath, dirnames, filenames in os.walk(path):
-        for f in filenames:
-            fp = os.path.join(dirpath, f)
-            total_size += os.path.getsize(fp)
+        for file in filenames:
+            filePath = os.path.join(dirpath, file)
+            try:
+                if file == "Settings.ini":
+                    total_size += os.path.getsize(filePath)
+                    continue
+                if os.path.basename(dirpath) in ["game profiles", "Profiles"]:
+                    root, ext = os.path.splitext(filePath)
+                    if os.path.islink(filePath):
+                        continue
+                    if ext.lower() in [".exe", ".log"]:
+                        continue
+                    if file.lower().startswith("steam_api") and ext.lower() == ".dll":
+                        continue
+                    total_size += os.path.getsize(filePath)
+                    
+                #logic to get the content folder and the subdirs
+                sub = os.path.join(dirpath, file)
+                parent = os.path.join(path, "content")
+                if sub.startswith(parent):
+                    root, extension = os.path.splitext(os.path.join(dirpath, file))
+                    if os.path.islink(os.path.join(dirpath, file)):
+                        continue
+                    if extension in [".exe", ".log"]:
+                        continue
+                    total_size += os.path.getsize(filePath)
+            except OSError:
+                pass
     return total_size
 
 def backupExist(output):
@@ -51,6 +94,7 @@ def ncEnvBackup(path):
                 final = os.path.join(dirpath, file)
                 finalPath = os.path.join("NucleusCoop", os.path.relpath(final, path))
                 zf.write(final, finalPath)
+                print("File done: " + finalPath)
     print(f"Backup created at {OUTPUTENV}")
 
         
@@ -58,7 +102,7 @@ def ncMainBackup(path):
     print("Backing up main folder...")
     backupExist(OUTPUTMAIN)
     with zipfile.ZipFile(OUTPUTMAIN, "w", strict_timestamps=False) as zf:
-        for dirpath, dirnames, filenames in os.walk(path): #goes through all files and folders
+        for dirpath, dirnames, filenames in os.walk(path):
             for file in filenames:
                 #always get settings.ini
                 if file == "Settings.ini": 
@@ -70,13 +114,14 @@ def ncMainBackup(path):
                     root, extension = os.path.splitext(os.path.join(dirpath, file))
                     if os.path.islink(os.path.join(dirpath, file)):
                         continue
-                    if extension in [".exe", ".log"]:
+                    if extension.lower() in [".exe", ".log"]:
                         continue
-                    if file.startswith("steam_api") and extension == ".dll":
+                    if file.lower().startswith("steam_api") and extension.lower() == ".dll":
                         continue
                     final = os.path.join(dirpath, file)
                     zf.write(final, os.path.relpath(final, path))
-                
+                    print("File done: " + final)           
+                         
                 #logic to get the content folder and the subdirs
                 sub = os.path.join(dirpath, file)
                 parent = os.path.join(path, "content")
@@ -88,5 +133,6 @@ def ncMainBackup(path):
                         continue
                     final = os.path.join(dirpath, file)
                     zf.write(final, os.path.relpath(final, path))
+                    print("File done: " + final)
                 
     print(f"Backup created at {OUTPUTMAIN}")
