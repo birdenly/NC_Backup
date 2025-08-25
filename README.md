@@ -1,9 +1,9 @@
 # NC_Backup
-A simple backup tool for Nucleus Co-op.
+A backup tool for Nucleus Co-op.
 
 ## What it does
-- Backs up the needed files from the Nucleus main folder.
-- Backs up the whole Nucleus environment folder (%userprofile%/NucleusCoop).
+- Backs up the needed files from the Nucleus main folder. (Game saves, profiles and nucleus configs)
+- Backs up the whole Nucleus environment folder (%userprofile%/NucleusCoop). (game Saves)
 
 ## Warning ⚠️
 - This will not back up handlers that save in the main game save path (e.g., Elden Ring, Dark Souls, some recent Unity games). Back those up manually.
